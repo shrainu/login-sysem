@@ -1,6 +1,7 @@
 import os
 import json
 import getpass
+import hashlib
 from time import sleep
 
 
@@ -12,6 +13,12 @@ def clear_screen():
         _ = os.system('clear')
     else:
         _ = os.system('cls')
+
+
+def encrypt_pass(password):
+    crypt = hashlib.sha256()
+    crypt.update(password.encode('utf8'))
+    return crypt.hexdigest()
 
 
 def add_admin(data, username, password):
@@ -88,10 +95,11 @@ def main():
 def admin_log(data, forced = False):
     username = input("Username: ")
     password = getpass.getpass("Password: ")
+    en_password = encrypt_pass(password)
     login = False
     for admin in data['admins']:
         if admin['username'] ==  username:
-            if admin['password'] == password:
+            if admin['password'] == en_password:
                 login = True
                 break
             else:
@@ -280,10 +288,11 @@ def admin_actions(admin_name, action_name, data):
             admin_panel(data, admin_name, False, False)
             return
         password = getpass.getpass("Enter your password: ")
+        en_password = encrypt_pass(password)
         pass_r = False
         for admin in data['admins']:
             if admin["username"] == admin_name:
-                if admin["password"] == password:
+                if admin["password"] == en_password:
                     pass_r = True
                     break
                 else:
@@ -327,10 +336,11 @@ def admin_actions(admin_name, action_name, data):
             admin_panel(data, admin_name, False, False)
             return
         password = getpass.getpass("Enter your password: ")
+        en_password = encrypt_pass(password)
         pass_r = False
         for admin in data['admins']:
             if admin["username"] == admin_name:
-                if admin["password"] == password:
+                if admin["password"] == en_password:
                     pass_r = True
                     break
                 else:
@@ -400,7 +410,8 @@ def register(data):
         print("Passwords doesn't match. ")
         register()
         return
-    data['users'].append({"username": username, "password": password})
+    en_password = encrypt_pass(password)
+    data['users'].append({"username": username, "password": en_password})
     update_data(data)
     print("You've successfully registered. Welcome to shrain's login system! ")
     action = input("Press 'Enter' to  login and 'q' to quit: ")
@@ -432,9 +443,10 @@ def login(data):
         login(data)
         return
     password = getpass.getpass("Password: ")
+    en_password = encrypt_pass(password)
     for user in data['users']:
         if user['username'] == username:
-            if user['password'] == password:
+            if user['password'] == en_password:
                 password_match = True
                 break
             else:
@@ -451,7 +463,7 @@ def login(data):
     print("You've successfully Loged in as " + username + ". Welcome to shrain's login system! ")
     action = input("Press 'Enter' to  login and 'q' to quit: ")
     if action == "":
-        login()
+        login(data)
         return
     elif action == "q":
         quit()

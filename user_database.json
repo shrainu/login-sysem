@@ -2,17 +2,21 @@
   "users": [
     {
       "username": "admin",
-      "password": "admin123"
+      "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
+    },
+    {
+      "username": "test0",
+      "password": "ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae"
     }
   ],
   "admins": [
     {
       "username": "shrain",
-      "password": "shrain123"
+      "password": "8683dee76e2c77e6531e6145cc32bad88ff9c9d162b3a7fafe5cb6f5ed65d49d"
     },
     {
       "username": "root",
-      "password": "root123!"
+      "password": "bcf4613ba873e264d81f1f0b1f155c3e4dac051e80db749f44a8facc48db712b"
     }
   ]
 }
